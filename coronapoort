@@ -1,0 +1,85 @@
+#!/usr/bin/env python 
+
+  
+
+import RPi.GPIO as GPIO 
+
+from mfrc522 import SimpleMFRC522 
+
+  
+
+import RPi.GPIO as GPIO 
+
+from time import sleep 
+
+  
+
+             
+
+def SetAngle(angle): 
+
+    duty = angle / 18 + 2 
+
+    GPIO.output(3, True) 
+
+    pwm.ChangeDutyCycle(duty) 
+
+    sleep(1) 
+
+    GPIO.output(3, False) 
+
+    pwm.ChangeDutyCycle(0) 
+
+  
+
+reader = SimpleMFRC522() 
+
+  
+
+try: 
+
+        id, text = reader.read() 
+
+        print(id) 
+
+        print(text) 
+
+         
+
+        if id == 673116207302: 
+
+            print ('gevaccineerd') 
+
+        elif id == 631704065774: 
+
+            GPIO.setmode(GPIO.BOARD) 
+
+            GPIO.setup(3, GPIO.OUT) 
+
+            pwm=GPIO.PWM(3, 50) 
+
+            pwm.start(0) 
+
+  
+
+  
+
+     
+
+            SetAngle(90) 
+
+            sleep(5) 
+
+            SetAngle(0) 
+
+            pwm.stop() 
+
+  
+
+             
+
+  
+
+finally: 
+
+        GPIO.cleanup() 
